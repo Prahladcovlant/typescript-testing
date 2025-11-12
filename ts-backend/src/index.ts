@@ -1,6 +1,7 @@
 import cors from "cors";
 import express, { NextFunction, Request, Response } from "express";
 
+import dataRouter from "./routes/data";
 import textRouter from "./routes/text";
 
 const app = express();
@@ -14,6 +15,7 @@ app.get("/health", (_req: Request, res: Response) => {
 });
 
 app.use("/text", textRouter);
+app.use("/data", dataRouter);
 
 app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {
   // Basic error handler for now

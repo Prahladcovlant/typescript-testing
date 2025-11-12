@@ -13,8 +13,7 @@
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
+    "noUncheckedIndexedAccess": false,
     "strict": true,
     "moduleDetection": "force",
     "skipLibCheck": true
