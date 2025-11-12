@@ -1,0 +1,5 @@
+node_modules/
+ts-backend/node_modules/
+dist/
+*.log
+

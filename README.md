@@ -1,37 +1,23 @@
-# ToduFodu Backend
+# TypeScript Backend
 
-Power-packed FastAPI backend with 13 heavy-duty endpoints covering text intelligence, data science, finance, imaging, geospatial analytics, signal processing, task orchestration, and code analysis. Built so your frontend can hit the ground sprinting.
+This project hosts a TypeScript/Express backend that is being built as the successor to the earlier Python FastAPI implementation.
 
-## Quickstart
+## Getting Started
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload
+cd ts-backend
+npm install
+npm run dev         # start in watch mode
+# or
+npm run build
+npm start
 ```
 
-API docs live at `http://127.0.0.1:8000/docs`.
+## Current Endpoints
 
-## Endpoints Snapshot
+- `GET /health` — service heartbeat.
+- `POST /text/summarize` — extractive summarizer powered by the new TypeScript service layer.
 
-- `POST /text/summarize` – multi-factor extractive summarizer with compression metrics.
-- `POST /text/sentiment` – lexicon-driven signal with polarity and dominant terms.
-- `POST /text/keywords` – RAKE-inspired keyword and scoring engine.
-- `POST /text/tfidf` – multi-document TF-IDF with configurable n-grams.
-- `POST /data/normalize` – z-score and min-max scaling plus distribution stats.
-- `POST /data/regression` – closed-form multivariate linear regression with R².
-- `POST /data/correlate` – Pearson, Spearman, and Kendall rank correlations.
-- `POST /finance/loan-amortization` – amortization schedule with early payoff support.
-- `POST /image/invert` – base64 image inversion using Pillow.
-- `POST /geo/distance` – geodesic Haversine distance in km and miles.
-- `POST /signals/fourier` – discrete Fourier transform, dominant frequency, and energy.
-- `POST /tasks/schedule` – topological scheduler with critical path extraction.
-- `POST /code/dependencies` – AST-based dependency classifier (stdlib vs third-party).
-- `POST /workflows/article-insights` – orchestrates summarization, sentiment, keywords, and TF-IDF over article batches.
-- `POST /workflows/market-health` – fuses correlations, regression, and loan modeling to surface a portfolio stress score.
-- `POST /workflows/project-blueprint` – combines scheduling, normalization, and signal analytics for project command centers.
+Additional endpoints from the legacy Python service will be ported incrementally.
 
-Bring any frontend, plug into these endpoints, and unleash the todu-fodu workflows.
-
-# python-testing
+# typescript-testing
