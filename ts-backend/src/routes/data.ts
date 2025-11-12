@@ -1,7 +1,12 @@
 import { Router } from "express";
 import { z } from "zod";
 
-import { correlations, linearRegression, normalize } from "../services/data";
+import {
+  correlations,
+  featureSummary,
+  linearRegression,
+  normalize,
+} from "../services/data";
 
 const router = Router();
 
@@ -23,6 +28,15 @@ const correlateSchema = z.object({
   seriesB: z.array(z.number()).min(2, "seriesB requires at least two elements"),
 });
 
+const featureSummarySchema = z.object({
+  features: z
+    .array(z.array(z.number()))
+    .min(1, "provide at least one row")
+    .refine(
+      (rows) => rows.every((row) => row.length === rows[0]?.length),
+      "all rows must have the same length",
+    ),
+});
 router.post("/normalize", (req, res) => {
   const parsed = normalizeSchema.safeParse(req.body);
   if (!parsed.success) {
@@ -81,6 +95,25 @@ router.post("/correlate", (req, res) => {
   } catch (error) {
     return res.status(400).json({
       message: error instanceof Error ? error.message : "Correlation failed",
+    });
+  }
+});
+
+router.post("/feature-summary", (req, res) => {
+  const parsed = featureSummarySchema.safeParse(req.body);
+  if (!parsed.success) {
+    return res.status(422).json({
+      message: "Validation failed",
+      errors: parsed.error.flatten(),
+    });
+  }
+
+  try {
+    const summary = featureSummary(parsed.data.features);
+    return res.json({ features: summary });
+  } catch (error) {
+    return res.status(400).json({
+      message: error instanceof Error ? error.message : "Feature summary failed",
     });
   }
 });

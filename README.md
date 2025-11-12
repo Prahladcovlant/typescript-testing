@@ -20,8 +20,10 @@ npm start
 - `POST /text/sentiment` — lexical sentiment signal with polarity + top positive/negative drivers.
 - `POST /text/keywords` — RAKE-inspired keyword extraction with relevance scores.
 - `POST /text/tfidf` — multi-document TF-IDF with configurable n-grams.
+- `POST /text/insights` — summary, sentiment, and keyword bundle in one call.
 - `POST /data/normalize` — returns z-score, min-max, and robust scalings plus distribution stats.
 - `POST /data/regression` — closed-form multivariate linear regression with R² and predictions.
 - `POST /data/correlate` — Pearson, Spearman, and Kendall correlations for paired series.
+- `POST /data/feature-summary` — per-feature statistical snapshot (mean, min, max, std dev).
 
 # typescript-testing

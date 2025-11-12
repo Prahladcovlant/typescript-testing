@@ -82,6 +82,12 @@ export interface SentimentResult {
   topNegativeTerms: string[];
 }
 
+export interface TextInsightsResult {
+  summary: SummarizeResult;
+  sentiment: SentimentResult;
+  keywords: KeywordResult;
+}
+
 export interface KeywordResult {
   keywords: string[];
   scores: number[];
@@ -306,5 +312,16 @@ function generateNgrams(tokens: string[], maxN: number): string[] {
     }
   }
   return results;
+}
+
+export function buildTextInsights(
+  text: string,
+  maxSentences: number,
+  topKKeywords: number,
+): TextInsightsResult {
+  const summary = summarizeText(text, maxSentences);
+  const sentiment = analyseSentiment(text);
+  const keywords = extractKeywords(text, topKKeywords);
+  return { summary, sentiment, keywords };
 }
 

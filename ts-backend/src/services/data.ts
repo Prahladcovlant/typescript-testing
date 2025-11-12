@@ -30,6 +30,13 @@ export interface CorrelationResult {
   kendall: number;
 }
 
+export interface FeatureSummary {
+  mean: number;
+  min: number;
+  max: number;
+  stdDev: number;
+}
+
 export function normalize(values: number[]): NormalizeResult {
   if (values.length === 0) {
     throw new Error("values array cannot be empty");
@@ -288,5 +295,40 @@ function computeKendall(seriesA: number[], seriesB: number[]): number {
   }
   const total = concordant + discordant;
   return total ? (concordant - discordant) / total : 0;
+}
+
+export function featureSummary(features: number[][]): FeatureSummary[] {
+  if (features.length === 0) {
+    throw new Error("feature matrix cannot be empty");
+  }
+  const cols = features[0]?.length ?? 0;
+  if (cols === 0) {
+    throw new Error("feature vectors must contain at least one value");
+  }
+
+  const columnData: number[][] = Array.from({ length: cols }, () => []);
+  features.forEach((row, rowIdx) => {
+    if (row.length !== cols) {
+      throw new Error(`row ${rowIdx} has inconsistent length`);
+    }
+    row.forEach((value, colIdx) => {
+      columnData[colIdx]?.push(value);
+    });
+  });
+
+  return columnData.map((values) => {
+    const mean = values.reduce((acc, value) => acc + value, 0) / values.length;
+    const variance =
+      values.reduce((acc, value) => acc + (value - mean) ** 2, 0) / values.length;
+    const stdDev = Math.sqrt(variance);
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    return {
+      mean: Number(mean.toFixed(4)),
+      min: Number(min.toFixed(4)),
+      max: Number(max.toFixed(4)),
+      stdDev: Number(stdDev.toFixed(4)),
+    };
+  });
 }
 
