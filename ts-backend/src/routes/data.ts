@@ -72,6 +72,10 @@ router.post("/regression", (req, res) => {
       intercept: payload.intercept,
       rSquared: payload.rSquared,
       predictions: payload.predictions,
+      residuals: payload.residuals,
+      mse: payload.mse,
+      rmse: payload.rmse,
+      mae: payload.mae,
     });
   } catch (error) {
     return res.status(400).json({

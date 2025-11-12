@@ -22,6 +22,10 @@ export interface RegressionResult {
   intercept: number;
   rSquared: number;
   predictions: number[];
+  residuals: number[];
+  mse: number;
+  rmse: number;
+  mae: number;
 }
 
 export interface CorrelationResult {
@@ -132,6 +136,7 @@ export function linearRegression(
   const predictions = features.map((row) =>
     row.reduce((acc, value, idx) => acc + value * (weights[idx] ?? 0), intercept),
   );
+  const residuals = targets.map((actual, idx) => actual - (predictions[idx] ?? 0));
 
   const meanY = targets.reduce((acc, value) => acc + value, 0) / m;
   const ssTot = targets.reduce((acc, value) => acc + (value - meanY) ** 2, 0);
@@ -140,12 +145,19 @@ export function linearRegression(
     return acc + (value - prediction) ** 2;
   }, 0);
   const rSquared = ssTot ? 1 - ssRes / ssTot : 0;
+  const mse = residuals.reduce((acc, value) => acc + value ** 2, 0) / residuals.length;
+  const mae = residuals.reduce((acc, value) => acc + Math.abs(value), 0) / residuals.length;
+  const rmse = Math.sqrt(mse);
 
   return {
     coefficients: weights.map((value) => Number(value.toFixed(6))),
     intercept: Number(intercept.toFixed(6)),
     rSquared: Number(rSquared.toFixed(6)),
     predictions: predictions.map((value) => Number(value.toFixed(6))),
+    residuals: residuals.map((value) => Number(value.toFixed(6))),
+    mse: Number(mse.toFixed(6)),
+    rmse: Number(rmse.toFixed(6)),
+    mae: Number(mae.toFixed(6)),
   };
 }
 
